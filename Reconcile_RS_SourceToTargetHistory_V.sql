@@ -1,0 +1,15 @@
+﻿CREATE VIEW [e4i].[Reconcile_RS_SourceToTargetHistory_V]
+AS SELECT [LatestBatchDateTime]
+      ,[SourceObject]
+      ,[SourceObjectRowCount]
+      ,[SourceQueryRowCount]
+      ,[TargetCsvFileName]
+      ,[RowsCopiedToCsvFile]
+      ,[StgTableName]
+      ,[StgTableRowCount]
+      ,[StgTableToCsvFileRowDiff]
+      ,[EdlMdataTableName]
+      ,[EdlMdataTableRowCount]
+      ,[EdlTableToSourceObjectRowDiff]
+  FROM [e4i].[Reconcile_RS_SourceToTargetHistory];
+GO
