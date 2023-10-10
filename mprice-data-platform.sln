@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SynapseAnalytics", "SynapseAnalytics", "{94C8E4E8-2F9F-4C88-8209-46E60D527DEF}"
+	ProjectSection(SolutionItems) = preProject
+		..\MPRICE\SynapseAnalytics\publish_config.json = ..\MPRICE\SynapseAnalytics\publish_config.json
+		..\MPRICE\SynapseAnalytics\README.md = ..\MPRICE\SynapseAnalytics\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terraform", "Terraform", "{916D427D-6BF6-447D-A6EE-FA55CB98E777}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\terraform-azure\main.tf = ..\..\..\terraform-azure\main.tf
+		..\..\..\terraform-azure\outputs.tf = ..\..\..\terraform-azure\outputs.tf
+		..\..\..\terraform-azure\providers.tf = ..\..\..\terraform-azure\providers.tf
+		..\..\..\terraform-azure\variables.tf = ..\..\..\terraform-azure\variables.tf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95623A06-35A0-4FD5-B726-560E1340DEBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tables", "Tables", "{66305EF8-2CB6-488C-9319-6342B2840A66}"
+	ProjectSection(SolutionItems) = preProject
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationDimension.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationDimension.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationEntity.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationEntity.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationEnvironment.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationEnvironment.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationExtract.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationExtract.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationExtractFileDropDetails.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationExtractFileDropDetails.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationModel.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationModel.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationPBIRefresh.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationPBIRefresh.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationStatisticsTableField.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\ConfigurationStatisticsTableField.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\EntityWatermarkLog.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\EntityWatermarkLog.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogEntity.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogEntity.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogErrorRef.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogErrorRef.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogExtract.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogExtract.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogExtractDetail.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogExtractDetail.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogMain.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogMain.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogModel.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogModel.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogPBIRefresh.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogPBIRefresh.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogTableStatisticsRefresh.sql = Ingestion-Synapse-DedicatedPool\ingestion\Tables\LogTableStatisticsRefresh.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stored Procedure", "Stored Procedure", "{F95D2C8D-5720-44E7-A65A-00B7FE57BF18}"
+	ProjectSection(SolutionItems) = preProject
+		Ingestion-Synapse-DedicatedPool\ingestion\Stored Procedure\SP_StatisticsPrepareTableFields.sql = Ingestion-Synapse-DedicatedPool\ingestion\Stored Procedure\SP_StatisticsPrepareTableFields.sql
+		Ingestion-Synapse-DedicatedPool\ingestion\Stored Procedure\usp_generic_scd = Ingestion-Synapse-DedicatedPool\ingestion\Stored Procedure\usp_generic_scd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schemas", "schemas", "{2C6E1AF3-0F18-47AB-A546-806386E5F98C}"
+	ProjectSection(SolutionItems) = preProject
+		Ingestion-Synapse-DedicatedPool\schemas\ingestion.sql = Ingestion-Synapse-DedicatedPool\schemas\ingestion.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{66305EF8-2CB6-488C-9319-6342B2840A66} = {95623A06-35A0-4FD5-B726-560E1340DEBC}
+		{F95D2C8D-5720-44E7-A65A-00B7FE57BF18} = {95623A06-35A0-4FD5-B726-560E1340DEBC}
+		{2C6E1AF3-0F18-47AB-A546-806386E5F98C} = {95623A06-35A0-4FD5-B726-560E1340DEBC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34977D59-135A-45A3-AA19-603D41E7F83C}
+	EndGlobalSection
+EndGlobal
