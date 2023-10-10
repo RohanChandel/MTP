@@ -1,0 +1,80 @@
+﻿CREATE PROC [EXTRACT_MDATA].[USP_EDL_D365_PRODUCT_HPRCORP] @FullLoad [bit],@Batch_Run_Datetime [DATETIME2],@FileGenerationGroup [varchar](10) AS
+BEGIN
+
+--Getting CODE,ITEM ID and ITEM SIZE TAXVALUE,NAME and DESCRIPTION
+WITH EcoResReleasedProductV2EntityTAXDATA_CTE AS (
+            SELECT DISTINCT
+            T1.ITEMID,
+            T4.Code AS CODE,
+            T28.ITEMSIZE,
+            T2.TAXVALUE/100 as TAXVALUE,
+            T5.NAME,
+            T5.DESCRIPTION,
+            T1.PRODUCT
+            FROM   EDL_D365.INVENTTABLE AS T1 
+        LEFT OUTER JOIN   EDL_D365.INVENTTABLEMODULE AS T9 ON (T1.ITEMID = T9.ITEMID AND T1.DATAAREAID = T9.DATAAREAID)
+        LEFT OUTER JOIN EDL_D365.METINVENTTABLE AS T28 ON (T1.ITEMID = T28.ITEMID AND T1.DATAAREAID = T28.DATAAREAID)
+        LEFT JOIN  EDL_D365.TAXDATA T2 ON (T2.TAXCODE=T9.TAXITEMGROUPID)
+        LEFT JOIN EDL_D365.ECORESPRODUCTCATEGORY AS T3 ON T1.PRODUCT=T3.PRODUCT
+        INNER JOIN EDL_D365.ECORESCATEGORY AS T4 ON T3.CATEGORY = T4.RECID
+        LEFT JOIN EDL_D365.ECORESPRODUCTTRANSLATION T5 ON T1.product  =  T5.product
+            WHERE T28.IS_CURRENT_FLAG = 1 AND T28.IS_DELETE_Flag = 0
+            AND T1.IS_CURRENT_FLAG = 1 AND T1.IS_DELETE_FLAG = 0
+            AND T9.IS_CURRENT_FLAG = 1 AND T9.IS_DELETE_FLAG = 0
+            AND T3.Is_Current_Flag=1 AND T4.Is_Current_Flag=1
+            and T3.IS_DELETE_FLAG=0 and T4.IS_DELETE_FLAG=0
+            AND T5.Is_Current_Flag = 1 AND T5.Is_Delete_flag = 0
+            AND T1.DATAAREAID='1000')
+
+--Getting Item Brand Name
+,ECORESPRODUCTATTRIBUTEVALUEV3ENTITY_CTE AS (   
+   SELECT 
+        SUBSTRING(T4.TEXTVALUE,CHARINDEX('-',T4.TEXTVALUE)+1,LEN(T4.TEXTVALUE)) AS TEXTVALUE, -- Take 2nd Half value post "-" from T4.TEXTVALUE field
+        T3.PRODUCT
+    FROM EDL_D365.ECORESATTRIBUTEVALUE AS T1
+    INNER JOIN EDL_D365.ECORESATTRIBUTE AS T2 ON T1.ATTRIBUTE = T2.RECID
+    INNER JOIN EDL_D365.ECORESINSTANCEVALUE AS T3 ON T1.INSTANCEVALUE = T3.RECID
+    LEFT OUTER JOIN EDL_D365.ECORESTextVALUE AS T4 ON T1.VALUE = T4.RECID
+    WHERE T2.NAME IN ('Item Brand') AND 
+     T1.Is_Current_Flag = 1 AND T1.Is_Delete_Flag = 0 AND
+     T2.Is_Current_Flag = 1 AND T2.Is_Delete_flag = 0 AND
+     T3.Is_Current_Flag = 1 AND T3.Is_Delete_Flag = 0 AND
+     T4.Is_Current_Flag = 1 AND T4.Is_Delete_Flag = 0        
+)
+,HEADER_RECORD AS (   
+    select
+    '80'                                                        AS RECTYPE
+    ,'82'                                                       AS DATATYPE
+    ,'R'                                                        AS LOADTYPE
+    ,'A'                                                        AS LOADSCOPE
+    ,REPLICATE(' ',6)                                           AS SCOPEKEY
+    ,CONCAT('HY08P1',' ',format(@Batch_Run_Datetime,'dd/MM/yyyy HH:MM'))  AS RUNTIME 
+)
+,DETAIL_RECORD AS (
+	Select '82' AS RECTP
+		,RIGHT(REPLICATE('0',10)+ISNULL(T1.ITEMID,' '),10) AS ITMN
+		,RIGHT(REPLICATE('0',10)+ISNULL(T1.CODE,' '),7) AS PBHF
+		,T1.ITEMSIZE AS SZEI
+		,FORMAT((T1.TAXVALUE),'.00000') AS GTXC
+		,TRIM(T2.TEXTVALUE) AS BRDN
+		,TRIM(T1.NAME) AS IDE1
+		,TRIM( Substring(Replace(T1.Description, T1.Itemsize, ''), len(Isnull(T2.TEXTVALUE,0)), (len(Replace(T1.Description, T1.Itemsize, '')) - len(Isnull(T2.TEXTVALUE,0)))+ 1)) as CONSUMERDESC
+	FROM EcoResReleasedProductV2EntityTAXDATA_CTE T1
+	LEFT JOIN ECORESPRODUCTATTRIBUTEVALUEV3ENTITY_CTE T2 
+		ON T1.PRODUCT=T2.PRODUCT
+)
+,FINAL AS
+(
+    SELECT
+    CONCAT(RECTYPE,'|',DATATYPE,'|',LOADTYPE,'|',LOADSCOPE,'|',SCOPEKEY,'|',RUNTIME,'|') AS DATA
+    FROM HEADER_RECORD
+    UNION ALL
+    SELECT
+    CONCAT(RECTP,'|',ITMN,'|',PBHF,'|',SZEI,'|',GTXC,'|',BRDN,'|',IDE1,'|',CONSUMERDESC,'|') AS DATA
+    FROM DETAIL_RECORD   
+)
+  Select * FROM FINAL order by 1 ASC
+END
+GO
+
+
